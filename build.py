@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 SITE = "https://sastobataion.github.io"
 BASE = "/"
 NAME = "স্বাস্থ্য বাতায়ন টিপস"
+GC = "sastobataion"  # GoatCounter কোড (ভিজিটর গণনা)
+EYE = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>'
 L = {"food": "খাবার", "sleep": "ঘুম", "move": "ব্যায়াম", "mind": "মনের যত্ন", "safe": "সুরক্ষা",
      "child": "শিশু", "women": "নারী", "elder": "বয়স্ক", "chronic": "দীর্ঘমেয়াদি রোগ"}
 CHANNEL_ID = "UC5crqMPnKmVbGh_S5jBSWIQ"  # ইউটিউব চ্যানেল Gkquiztube
@@ -56,6 +58,7 @@ h1{font-family:"Noto Serif Bengali",serif;font-size:clamp(26px,5vw,36px);font-we
 .box{border-top:1px solid var(--ln);margin-top:18px;padding-top:12px}.box h2{font-size:19px;margin:0 0 6px}
 .box a,.back a{color:var(--br)}.box p{margin:2px 0;color:var(--mu);font-size:16px}
 button{background:var(--br);color:var(--bi);border:0;border-radius:999px;padding:6px 22px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.sl{display:inline-block;margin:10px 0 0 12px;color:var(--br);font-weight:600}.vc{display:flex;align-items:center;gap:6px;color:var(--mu)}.vc b{color:var(--ink)}
 footer{border-top:1px solid var(--ln);margin-top:28px;padding:18px 0 32px;color:var(--mu);font-size:15px}
 .ab{background:var(--sf);border-radius:10px;padding:12px 16px;margin-top:18px;font-size:16px}.ab b{display:block}.ab a{color:var(--br)}
 .note{background:var(--sf);border-left:5px solid #d9742b;border-radius:8px;padding:10px 14px;margin-top:16px;font-size:16px}"""
@@ -63,6 +66,8 @@ footer{border-top:1px solid var(--ln);margin-top:28px;padding:18px 0 32px;color:
 def page(a, pid, rel, today):
     c = a.get("cat") if a.get("cat") in L else "safe"
     url = f"{SITE}/a/{pid}/"
+    wa = urllib.parse.quote(a["title"] + " " + url)
+    fb = urllib.parse.quote(url)
     paras = a.get("body", [])
     desc = (paras[0] if paras else a["title"]).strip()
     desc = desc[:150] + ("…" if len(desc) > 150 else "")
@@ -119,6 +124,8 @@ def page(a, pid, rel, today):
 <link rel="icon" href="{BASE}logo.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&family=Noto+Serif+Bengali:wght@800&display=swap" rel="stylesheet">
 <script type="application/ld+json">{ldj}</script>
+<link rel="alternate" type="application/rss+xml" title="{NAME}" href="{SITE}/a/feed.xml">
+<script data-goatcounter="https://{GC}.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <style>{CSS}</style>
 </head>
 <body>
@@ -129,10 +136,12 @@ def page(a, pid, rel, today):
 <p class="mt">{esc(meta)}</p>
 {body}
 <button id="sh" type="button">শেয়ার করুন</button>
+<a class="sl" href="https://wa.me/?text={wa}" target="_blank" rel="noopener">হোয়াটসঅ্যাপ</a><a class="sl" href="https://www.facebook.com/sharer/sharer.php?u={fb}" target="_blank" rel="noopener">ফেসবুক</a>
 <p class="back"><a href="{BASE}">← সব লেখা দেখুন</a></p>
 </article></main>
 <footer><div class="w"><div class="note">এই লেখা সাধারণ তথ্যের জন্য, চিকিৎসকের পরামর্শের বিকল্প নয়। শারীরিক সমস্যা থাকলে নিবন্ধিত চিকিৎসকের সঙ্গে কথা বলুন। জরুরি অবস্থায় এখনই নিকটস্থ হাসপাতালে যান।</div>
-<p>© {NAME}। সাইট মালিক: Serajul Islam। যোগাযোগ: <a href="https://wa.me/8801724119866" style="color:var(--br)">হোয়াটসঅ্যাপ</a> · <a href="mailto:sastobataion@gmail.com" style="color:var(--br)">ইমেইল</a></p></div></footer>
+<p>© {NAME}। সাইট মালিক: Serajul Islam। যোগাযোগ: <a href="https://wa.me/8801724119866" style="color:var(--br)">হোয়াটসঅ্যাপ</a> · <a href="mailto:sastobataion@gmail.com" style="color:var(--br)">ইমেইল</a></p><p class="vc" id="vc" hidden><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg> মোট ভিজিটর: <b id="vcn"></b></p></div></footer>
+<script>fetch("https://{GC}.goatcounter.com/counter/TOTAL.json").then(function(r){{return r.json()}}).then(function(j){{var n=parseInt(String(j.count_unique||j.count||"").replace(/\\D/g,""),10);if(n>0){{document.getElementById("vcn").textContent=n.toLocaleString("bn-BD");document.getElementById("vc").hidden=false}}}}).catch(function(){{}})</script>
 <script>document.getElementById("sh").onclick=function(){{var d={{title:document.title,url:location.href}};if(navigator.share){{navigator.share(d).catch(function(){{}})}}else if(navigator.clipboard){{navigator.clipboard.writeText(d.url).then(function(){{document.getElementById("sh").textContent="লিংক কপি হয়েছে"}})}}}}</script>
 </body>
 </html>
@@ -160,6 +169,22 @@ def fetch_videos():
     except Exception as ex:
         print("ভিডিওর তালিকা আনা যায়নি:", ex)
 
+def write_feed(vis, ids, today):
+    from email.utils import format_datetime
+    items = ""
+    for a, pid in list(zip(vis, ids))[:20]:
+        d = a.get("date") or today
+        try:
+            when = datetime.datetime.fromisoformat(d + "T06:00:00+00:00")
+        except ValueError:
+            when = datetime.datetime.now(datetime.timezone.utc)
+        desc = (a.get("body") or [""])[0].strip()
+        items += (f"<item><title>{esc(a['title'])}</title><link>{SITE}/a/{pid}/</link><guid isPermaLink=\"true\">{SITE}/a/{pid}/</guid>"
+                  f"<pubDate>{format_datetime(when)}</pubDate><description>{esc(desc)}</description></item>\n")
+    feed = (f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>{NAME}</title><link>{SITE}/</link>'
+            f'<description>সহজ বাংলায় স্বাস্থ্য পরামর্শ</description><language>bn</language>\n{items}</channel></rss>\n')
+    open("a/feed.xml", "w", encoding="utf-8").write(feed)
+
 def main():
     arts = json.load(open("articles.json", encoding="utf-8"))
     today = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=6)).date().isoformat()
@@ -182,6 +207,7 @@ def main():
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sm += "".join(f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls) + "</urlset>\n"
     open("sitemap.xml", "w", encoding="utf-8").write(sm)
+    write_feed(vis, ids, today)
     print(f"{len(vis)}টা লেখার পাতা তৈরি হয়েছে")
     fetch_videos()
 
