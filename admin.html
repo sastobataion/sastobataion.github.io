@@ -23,6 +23,9 @@ button.del{color:var(--bad)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f2b134;outline-offset:2px}
 .row{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
 .row button{padding:4px 12px}
+.btnl{display:inline-block;padding:6px 18px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;background:var(--surface);margin:0 4px 8px 0}
+.rcv{font-size:22px;font-weight:600;letter-spacing:1px;word-break:break-all;background:var(--bg);border-radius:8px;padding:10px 12px;margin:0 0 12px}
+#sec summary{cursor:pointer}
 .btns{flex-wrap:wrap;justify-content:flex-end}
 .row:first-of-type{border-top:0}
 .row b{display:block;line-height:1.4}.row small{color:var(--muted)}
@@ -51,10 +54,43 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <h2>লগইন</h2>
 <label for="up">পাসওয়ার্ড<input id="up" type="password" autocomplete="current-password"></label>
 <button id="in" class="main" type="button">লগইন</button>
+<button id="fp" type="button">পাসওয়ার্ড ভুলে গেছেন?</button>
 <button id="fg" class="del" type="button">এই ডিভাইস থেকে মুছুন</button>
+<div id="rs" hidden style="margin-top:14px">
+<p class="hint">সেটআপের সময় পাওয়া রিকভারি কোডটা দিন। কোডটা আপনার ইমেইলে (sastobataion@gmail.com) পাঠিয়ে রাখার কথা ছিল।</p>
+<label for="rc">রিকভারি কোড<input id="rc" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX"></label>
+<label for="n1">নতুন পাসওয়ার্ড (কমপক্ষে ৮ অক্ষর)<input id="n1" type="password" autocomplete="new-password"></label>
+<label for="n2">নতুন পাসওয়ার্ড আবার লিখুন<input id="n2" type="password" autocomplete="new-password"></label>
+<button id="rg" class="main" type="button">নতুন পাসওয়ার্ড সেট করুন</button>
+<button id="nc" type="button">কোড নেই</button>
+<div id="nco" hidden class="hint" style="margin-top:12px">
+<p>কোড না থাকলে পাসওয়ার্ড ফেরত আনা যায় না, কারণ পাসওয়ার্ড কোনো সার্ভারে রাখা হয় না। তবে সাইটের নিয়ন্ত্রণ হারাননি। নতুন করে সেটআপ করুন:</p>
+<p>১. GitHub-এ লগইন করুন (দরকার হলে GitHub নিজে আপনার ইমেইলে কোড পাঠাবে), তারপর <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener" style="color:var(--br)">টোকেনের পাতায়</a> যান।</p>
+<p>২. টোকেনের নামে চেপে <b>Regenerate token</b> দিন, নতুন টোকেন কপি করুন।</p>
+<p>৩. নিচের <b>এই ডিভাইস থেকে মুছুন</b> চেপে নতুন টোকেন ও নতুন পাসওয়ার্ড দিয়ে সেটআপ করুন।</p>
+</div>
+</div>
+</div>
+
+<div id="rcc" class="card" hidden>
+<h2>রিকভারি কোড</h2>
+<p class="hint">এই কোড এখন একবারই দেখাবে। পাসওয়ার্ড ভুলে গেলে এই কোড দিয়ে নতুন পাসওয়ার্ড সেট করা যাবে। কোডটা অন্য কাউকে দেবেন না।</p>
+<p class="rcv" id="rcv"></p>
+<button id="rcp" type="button">কপি করুন</button>
+<a id="rce" class="btnl" href="#">ইমেইলে পাঠিয়ে রাখুন</a>
+<label style="display:flex;gap:8px;align-items:center;margin-top:6px"><input id="rck" type="checkbox" style="width:auto;margin:0">আমি কোডটা সংরক্ষণ করেছি</label>
+<button id="rcd" class="main" type="button" disabled>চালিয়ে যান</button>
 </div>
 
 <div id="app" hidden>
+<details class="card" id="sec"><summary><b>নিরাপত্তা: পাসওয়ার্ড ও রিকভারি কোড</b></summary>
+<p class="hint" style="margin-top:10px">পাসওয়ার্ড বদলালে নতুন রিকভারি কোড তৈরি হয়, আগের কোড আর চলে না।</p>
+<label for="cp">বর্তমান পাসওয়ার্ড<input id="cp" type="password" autocomplete="current-password"></label>
+<label for="c1">নতুন পাসওয়ার্ড (কমপক্ষে ৮ অক্ষর)<input id="c1" type="password" autocomplete="new-password"></label>
+<label for="c2">নতুন পাসওয়ার্ড আবার লিখুন<input id="c2" type="password" autocomplete="new-password"></label>
+<button id="cpb" class="main" type="button">পাসওয়ার্ড বদলান</button>
+<button id="nrc" type="button">শুধু নতুন রিকভারি কোড তৈরি করুন</button>
+</details>
 <div class="card"><h2 id="fh">নতুন লেখা</h2>
 <label for="ti">শিরোনাম<input id="ti"></label>
 <label for="ca">ক্যাটাগরি<select id="ca"><option value="food">খাবার</option><option value="sleep">ঘুম</option><option value="move">ব্যায়াম</option><option value="mind">মনের যত্ন</option><option value="safe">সুরক্ষা</option><option value="child">শিশু</option><option value="women">নারী</option><option value="elder">বয়স্ক</option><option value="chronic">দীর্ঘমেয়াদি রোগ</option></select></label>
@@ -86,7 +122,7 @@ function dec(b){var s=atob(b.replace(/\n/g,"")),u=new Uint8Array(s.length);for(v
 function enc(t){var u=new TextEncoder().encode(t),s="";u.forEach(function(c){s+=String.fromCharCode(c)});return btoa(s)}
 function why(e){return e.code===401?"টোকেন ঠিক নয় বা মেয়াদ শেষ।":e.code===403?"টোকেনের অনুমতি নেই। Contents: Read and write দিয়েছেন কি না দেখুন।":e.code===404?"রিপোজিটরি বা articles.json পাওয়া যায়নি। নাম ও ফাইল দুটোই দেখুন।":e.code===409||e.code===422?"অন্য কোথাও ফাইলটা বদলেছে। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।":"ইন্টারনেট বা অন্য কোনো সমস্যা হয়েছে। আবার চেষ্টা করুন।"}
 function load(){say("লোড হচ্ছে…");return api("GET").then(function(j){sha=j.sha;A=JSON.parse(dec(j.content));$("login").hidden=true;$("unl").hidden=true;$("app").hidden=false;reset();$("out").hidden=false;say("");draw();return true}).catch(function(e){say(why(e),true);gate();return false})}
-function gate(){var h=!!ls("ae");$("unl").hidden=!h;$("login").hidden=h;$("app").hidden=true;$("out").hidden=true}
+function gate(){$("rcc").hidden=true;$("rs").hidden=true;var h=!!ls("ae");$("unl").hidden=!h;$("login").hidden=h;$("app").hidden=true;$("out").hidden=true}
 function b64(u){var s="";u.forEach(function(c){s+=String.fromCharCode(c)});return btoa(s)}
 function ub(b){var s=atob(b),u=new Uint8Array(s.length);for(var i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 function key(p,salt){return crypto.subtle.importKey("raw",new TextEncoder().encode(p),"PBKDF2",false,["deriveKey"]).then(function(k){return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])})}
@@ -109,11 +145,35 @@ var a={cat:$("ca").value,title:t,body:b},yv=$("yt").value.trim(),y=ytid(yv);if(y
 function fin(p){if(p)a.img=p;a.id=e>=0?aid(A[e]):"n"+Date.now().toString(36);if(e>=0)a.upd=today();if(e>=0)A[e]=a;else A.unshift(a);reset();push(m)}
 if(n){say("ছবি আপলোড হচ্ছে…");var p="images/"+Date.now()+".jpg";api("PUT",{message:"Add image",content:n},p).then(function(){fin(p)}).catch(function(x){say(why(x),true)})}else fin(old)};
 $("cancel").onclick=reset;
-$("go").onclick=function(){var o=$("o").value.trim(),r=$("r").value.trim(),t=$("t").value.trim(),p=$("pw").value,pp=r.replace(/^https?:\/\//,"").split("/").filter(Boolean);if(pp.length>1){r=pp[1]}else if(pp.length===1){r=pp[0]}if(!o||!r||!t||!p){say("সবগুলো ঘর পূরণ করুন।",true);return}if(p.length<8){say("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।",true);return}S.o=o;S.r=r;S.t=t;load().then(function(ok){if(!ok)return;return lock(t,p).then(function(b){ls("ae",b);ls("ao",o);ls("ar",r);$("t").value="";$("pw").value="";say("সেটআপ হয়েছে। এখন থেকে পাসওয়ার্ড দিয়ে ঢুকবেন।")})}).catch(function(){say("এই ব্রাউজারে সেটআপ করা যাচ্ছে না।",true)})};
-$("in").onclick=function(){var b=ls("ae"),p=$("up").value;if(!p)return;S.o=ls("ao");S.r=ls("ar");say("খোলা হচ্ছে…");unlock(b,p).then(function(t){S.t=t;$("up").value="";return load()}).catch(function(){say("পাসওয়ার্ড ঠিক নয়।",true)})};
-$("fg").onclick=function(){if(confirm("এই ডিভাইস থেকে সেভ করা টোকেন মুছে ফেলবেন? আবার সেটআপ করতে হবে।")){ls("ae","");S.t="";gate();say("মুছে ফেলা হয়েছে।")}};
+$("go").onclick=function(){var o=$("o").value.trim(),r=$("r").value.trim(),t=$("t").value.trim(),p=$("pw").value,pp=r.replace(/^https?:\/\//,"").split("/").filter(Boolean);if(pp.length>1){r=pp[1]}else if(pp.length===1){r=pp[0]}if(!o||!r||!t||!p){say("সবগুলো ঘর পূরণ করুন।",true);return}if(p.length<8){say("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।",true);return}S.o=o;S.r=r;S.t=t;load().then(function(ok){if(!ok)return;return lock(t,p).then(function(b){ls("ae",b);ls("ao",o);ls("ar",r);$("t").value="";$("pw").value="";say("সেটআপ হয়েছে। এখন রিকভারি কোডটা সংরক্ষণ করুন।");return newRec(showApp)})}).catch(function(){say("এই ব্রাউজারে সেটআপ করা যাচ্ছে না।",true)})};
+$("in").onclick=function(){var b=ls("ae"),p=$("up").value;if(!p)return;S.o=ls("ao");S.r=ls("ar");say("খোলা হচ্ছে…");unlock(b,p).then(function(t){S.t=t;$("up").value="";return load().then(function(ok){if(ok&&!ls("ar2")){$("sec").open=true;say("নিরাপত্তার জন্য একটা রিকভারি কোড তৈরি করে রাখুন।")}})}).catch(function(){say("পাসওয়ার্ড ঠিক নয়।",true)})};
 $("out").onclick=function(){S.t="";A=[];gate();say("লগআউট হয়েছে।")};
 ["up","pw"].forEach(function(i){$(i).onkeydown=function(e){if(e.key==="Enter")$(i==="up"?"in":"go").click()}});
+
+var RM="sastobataion@gmail.com";
+function rcode(){var al="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",u=crypto.getRandomValues(new Uint8Array(16)),s="";for(var i=0;i<16;i++){s+=al[u[i]%32];if(i%4===3&&i<15)s+="-"}return s}
+function showApp(){$("rcc").hidden=true;$("app").hidden=false;$("out").hidden=false}
+function showRec(c,done){$("login").hidden=true;$("unl").hidden=true;$("app").hidden=true;$("rcc").hidden=false;$("rcv").textContent=c;$("rck").checked=false;$("rcd").disabled=true;
+$("rce").href="mailto:"+RM+"?subject="+encodeURIComponent("অ্যাডমিন রিকভারি কোড – স্বাস্থ্য বাতায়ন টিপস")+"&body="+encodeURIComponent("রিকভারি কোড: "+c+"\n\nএই কোড কাউকে দেবেন না। পাসওয়ার্ড ভুলে গেলে এই কোড দিয়ে নতুন পাসওয়ার্ড সেট করা যায়। কোডটা শুধু যে ফোন বা কম্পিউটারে সেটআপ করেছেন, সেখানেই কাজ করে।");
+$("rcp").textContent="কপি করুন";$("rcp").onclick=function(){if(navigator.clipboard){navigator.clipboard.writeText(c).then(function(){$("rcp").textContent="কপি হয়েছে"})}};
+$("rck").onchange=function(){$("rcd").disabled=!this.checked};$("rcd").onclick=function(){$("rcv").textContent="";done()};window.scrollTo(0,0)}
+function newRec(done){var c=rcode();return lock(S.t,c).then(function(b){ls("ar2",b);showRec(c,done)})}
+function wipe(){if(confirm("এই ডিভাইস থেকে সেভ করা টোকেন মুছে ফেলবেন? আবার সেটআপ করতে হবে।")){ls("ae","");ls("ar2","");S.t="";gate();say("মুছে ফেলা হয়েছে।")}}
+$("fg").onclick=wipe;
+$("fp").onclick=function(){$("rs").hidden=!$("rs").hidden};
+$("nc").onclick=function(){$("nco").hidden=!$("nco").hidden};
+$("rg").onclick=function(){var raw=$("rc").value.toUpperCase().replace(/[^A-Z0-9]/g,""),a=$("n1").value,b=$("n2").value,blob=ls("ar2");
+if(!blob){say("এই ডিভাইসে রিকভারি কোড সংরক্ষিত নেই। “কোড নেই” অংশ দেখুন।",true);return}
+if(raw.length!==16){say("রিকভারি কোড ১৬ অক্ষরের হয় (XXXX-XXXX-XXXX-XXXX)।",true);return}
+if(a.length<8){say("নতুন পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।",true);return}
+if(a!==b){say("নতুন পাসওয়ার্ড দুই জায়গায় মেলেনি।",true);return}
+unlock(blob,raw.match(/.{4}/g).join("-")).then(function(t){return lock(t,a).then(function(nb){S.t=t;S.o=ls("ao");S.r=ls("ar");ls("ae",nb);$("rc").value=$("n1").value=$("n2").value="";$("rs").hidden=true;return load().then(function(ok){if(ok)return newRec(showApp)})})},function(){say("রিকভারি কোড ঠিক নয়।",true)})};
+$("cpb").onclick=function(){var cp=$("cp").value,a=$("c1").value,b=$("c2").value;
+if(!cp||!a||!b){say("তিনটা ঘরই পূরণ করুন।",true);return}
+if(a.length<8){say("নতুন পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের দিন।",true);return}
+if(a!==b){say("নতুন পাসওয়ার্ড দুই জায়গায় মেলেনি।",true);return}
+unlock(ls("ae"),cp).then(function(t){return lock(t,a).then(function(nb){S.t=t;ls("ae",nb);$("cp").value=$("c1").value=$("c2").value="";return newRec(showApp)})},function(){say("বর্তমান পাসওয়ার্ড ঠিক নয়।",true)})};
+$("nrc").onclick=function(){newRec(showApp)};
 ls("at","");$("o").value=ls("ao");$("r").value=ls("ar");gate();
 </script>
 </body>
